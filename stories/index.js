@@ -15,7 +15,9 @@ import Appointment from "components/Appointment";
 import Header from "components/Appointment/header";
 import Empty from "components/Appointment/empty";
 import Show from "components/Appointment/show";
-import { act } from "@testing-library/react";
+import Confirm from "components/Appointment/confirm";
+import Status from "components/Appointment/status";
+import Error from "components/Appointment/error";
 
 storiesOf("Button", module)
   .addParameters({
@@ -124,10 +126,24 @@ storiesOf("Appointment", module)
   .add("Empty", () => <Empty onAdd={action("onAdd")} />)
   .add("Show", () => (
     <Show
-    student="Lydia Miller-Jones"
-    interviewer={interviewer}
-    onEdit={action("onEdit")}
-    onDelete={action("onDelete")} />)
+      student="Lydia Miller-Jones"
+      interviewer={interviewer}
+      onEdit={action("onEdit")}
+      onDelete={action("onDelete")}
+    />)
   )
-
+  .add("Confirm", () => (
+    <Confirm 
+      message="Delete the appointment?"
+      onCancel={action("onCancel")}
+      onConfirm={action("onConfirm")}
+    />
+  ))
+  .add("Status", () => <Status message="Deleting" />)
+  .add("Error", () => (
+    <Error 
+      message="Could not delete appointment"
+      onClose={action("onClose")}
+    />
+  ))
 
