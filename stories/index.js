@@ -111,10 +111,10 @@ storiesOf("InterviewerList", module)
     backgrounds: [{name: "dark", value: "#222f3e", default: true}]
   })
   .add("Initital", () => (
-    <InterviewerList interviewers={interviewers} setInterviewer={action("setInterviewer")} />
+    <InterviewerList interviewers={interviewers} onChange={action("onChange")} />
   ))
   .add("Preselected", () => (
-    <InterviewerList interviewers={interviewers} interviewer={3} setInterviewer={action("setInterviewer")} />
+    <InterviewerList interviewers={interviewers} value={3} onChange={action("onChange")} />
   ))
 
 storiesOf("Appointment", module)
