@@ -3,6 +3,7 @@ import axios from "axios";
 
 import "components/Application.scss";
 import { getAppointmentsForDay, getInterview } from "helpers/selectors";
+import { useVisualMode } from "hooks/useVisualMode";
 
 import DayList from "components/DayList";
 import Appointment from "components/Appointment"
@@ -28,7 +29,6 @@ export default function Application(props) {
     ])
       .then((all) => {
         // console.log(all);
-
         setState(prev => (
           { ...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data}
         ))
