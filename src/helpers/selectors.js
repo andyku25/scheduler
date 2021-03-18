@@ -1,10 +1,20 @@
+// Using filter
 export function getAppointmentsForDay(state, day) {
-    const appointmentsOnDay = state.days.filter(appointment => (appointment.name === day));
-    if (appointmentsOnDay[0]) {
-      const appointmentsArr = [...appointmentsOnDay[0].appointments];
-      return appointmentsArr.map(id => state.appointments[id])
+    const dayLObj = state.days.filter(appointment => (appointment.name === day));
+    if (dayLObj[0]) {
+      const appointmentsArr = [...dayLObj[0].appointments];
+      return appointmentsArr.map(id => state.appointments[id]);
     }
     return [];
+};
+
+// Using find
+export function getInterviewersForDay(state, day) {
+  const dayObj = state.days.find((eachDay) => (eachDay.name === day));
+  if (dayObj) {
+    return dayObj.interviewers.map(interviewerId => state.interviewers[interviewerId])
+  }
+  return [];
 };
 
 export function getInterview(state, interview) {

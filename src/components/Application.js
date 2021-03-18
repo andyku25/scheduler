@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import "components/Application.scss";
-import { getAppointmentsForDay, getInterview } from "helpers/selectors";
-import { useVisualMode } from "hooks/useVisualMode";
+import { getAppointmentsForDay, getInterviewersForDay, getInterview } from "helpers/selectors";
 
 import DayList from "components/DayList";
 import Appointment from "components/Appointment"
@@ -40,6 +39,7 @@ export default function Application(props) {
     const setDay = day => setState({ ...state, day });
 
     const dailyAppointments = getAppointmentsForDay(state, state.day);
+    const dailyInterviewers = getInterviewersForDay(state, state.day);
 
     console.log(state)
     const appointmentRender = dailyAppointments.map(appointment => {
@@ -49,7 +49,8 @@ export default function Application(props) {
           key={appointment.id}
           id={appointment.id}
           time={appointment.time}
-          interview={interview} 
+          interview={interview}
+          interviewers={dailyInterviewers}
         />
       )
     })
