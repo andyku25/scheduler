@@ -28,6 +28,7 @@ export default function Application(props) {
       [id]: appointment
     };
 
+    console.log(interview);
     axios
     .put(`/api/appointments/${id}`, {interview})
     .then((res) => console.log(res))
@@ -37,6 +38,30 @@ export default function Application(props) {
       ...state,
       appointments
     })
+  }
+
+  const cancelInterview = (id) => {
+    // update local state
+    const appointment = {
+      ...state.appointments[id],
+      interview: null
+    }
+    
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    }
+
+    setState({
+      ...state,
+      appointments
+    })
+
+    // update the DB to empty the appointment ID interview details(set the appointment to null)
+    axios
+      .delete(`api/appointments/${id}`)
+      .then((res) => console.log(res))
+      .catch((err) => console.error("delete error", err))
   }
   
   useEffect(() => {
@@ -75,6 +100,7 @@ export default function Application(props) {
           interview={interview}
           interviewers={dailyInterviewers}
           bookInterview={bookInterview}
+          cancelInterview={cancelInterview}
         />
       )
     })
