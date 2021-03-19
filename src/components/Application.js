@@ -16,6 +16,29 @@ export default function Application(props) {
     interviewers: {}
   });
 
+  // function to be used to book an interview
+  const bookInterview = (id, interview) => {
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+    
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+
+    axios
+    .put(`/api/appointments/${id}`, {interview})
+    .then((res) => console.log(res))
+    .catch((err) => console.log(err))
+    
+    setState({
+      ...state,
+      appointments
+    })
+  }
+  
   useEffect(() => {
     const daysData = "/api/days";
     const appointmentsData = "/api/appointments";
@@ -51,6 +74,7 @@ export default function Application(props) {
           time={appointment.time}
           interview={interview}
           interviewers={dailyInterviewers}
+          bookInterview={bookInterview}
         />
       )
     })
