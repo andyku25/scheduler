@@ -38,7 +38,7 @@ export default function Application(props) {
           appointments
         })
       })
-      .catch((err) => console.log(err))
+      // .catch((err) => console.log(err)) <--REMOVE! *Bug* Error handling on the index does not fire with this code.
     
   }
 
@@ -64,7 +64,7 @@ export default function Application(props) {
           appointments
         })
       })
-      .catch((err) => console.error("delete error", err))
+      // .catch((err) => console.error("delete error", err)) <--REMOVE! *Bug* Error handling on the index does not fire with this code.
   }
   
   useEffect(() => {
