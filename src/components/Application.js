@@ -29,15 +29,17 @@ export default function Application(props) {
     };
 
     console.log(interview);
-    axios
-    .put(`/api/appointments/${id}`, {interview})
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err))
+    return axios
+      .put(`/api/appointments/${id}`, {interview})
+      .then((res) => {
+        console.log(res);
+        setState({
+          ...state,
+          appointments
+        })
+      })
+      .catch((err) => console.log(err))
     
-    setState({
-      ...state,
-      appointments
-    })
   }
 
   const cancelInterview = (id) => {
@@ -52,15 +54,16 @@ export default function Application(props) {
       [id]: appointment
     }
 
-    setState({
-      ...state,
-      appointments
-    })
-
     // update the DB to empty the appointment ID interview details(set the appointment to null)
-    axios
+    return axios
       .delete(`api/appointments/${id}`)
-      .then((res) => console.log(res))
+      .then((res) => {
+        console.log(res);
+        setState({
+          ...state,
+          appointments
+        })
+      })
       .catch((err) => console.error("delete error", err))
   }
   
