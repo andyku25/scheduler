@@ -38,7 +38,7 @@ export default function Application(props) {
         })
         console.log(res)
       })
-      .catch((err) => console.log(err))
+      // .catch((err) => console.log("Theres an error on save", err))
     
     
   }
@@ -65,7 +65,7 @@ export default function Application(props) {
         })
         console.log(res)
       })
-      .catch((err) => console.error("delete error", err))
+      // .catch((err) => console.error("delete error", err)) <----- REMOVE!!!! Catch error too early for the index.js 'save' and 'removeApt' to display the error msg.
   }
   
   useEffect(() => {
