@@ -33,15 +33,22 @@ export  function useApplicationData() {
 
   // function to be used to book an interview update state with new appointment interview details
   const bookInterview = (id, interview) => {
+    console.log(id);
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
     };
     
+
     const appointments = {
       ...state.appointments,
       [id]: appointment
     };
+
+    const currentDay = state.days.find(day => day.appointments.includes(id));
+    if (currentDay) {
+      currentDay.spots -= 1;
+    }
 
     return axios
       .put(`/api/appointments/${id}`, {interview})
@@ -68,6 +75,11 @@ export  function useApplicationData() {
       [id]: appointment
     }
 
+    const currentDay = state.days.find(day => day.appointments.includes(id));
+    if (currentDay) {
+      currentDay.spots += 1;
+    }
+
     // update the DB to empty the appointment ID interview details(set the appointment to null)
     return axios
       .delete(`api/appointments/${id}`)
@@ -83,7 +95,6 @@ export  function useApplicationData() {
 
   // function to update the current state day
   const setDay = day => setState({ ...state, day });
-
 
   return { state, setDay, bookInterview, cancelInterview };
 }
