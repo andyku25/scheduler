@@ -1,6 +1,17 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+// create setspots function
+// note: take the total number of appointment spots on the day minus number of appointments not null
+const setSpots = (state) => {
+  const days = state.days.map(day => ({
+    ...day,
+    spots: day.appointments.length - day.appointments.filter(i => state.appointments[i].interview).length
+  }))
+  return {...state, days};
+}
+
+
 export  function useApplicationData() {
   // create application state
   const [state, setState] = useState({
@@ -45,11 +56,6 @@ export  function useApplicationData() {
       [id]: appointment
     };
 
-    const currentDay = state.days.find(day => day.appointments.includes(id));
-    if (currentDay) {
-      currentDay.spots -= 1;
-    }
-
     return axios
       .put(`/api/appointments/${id}`, {interview})
       .then((res) => {
@@ -58,6 +64,7 @@ export  function useApplicationData() {
           ...state,
           appointments
         })
+        setState(setSpots);
       })
       // .catch((err) => console.log(err)) <--REMOVE! *Bug* Error handling on the index does not fire with this code.
   }
@@ -75,11 +82,6 @@ export  function useApplicationData() {
       [id]: appointment
     }
 
-    const currentDay = state.days.find(day => day.appointments.includes(id));
-    if (currentDay) {
-      currentDay.spots += 1;
-    }
-
     // update the DB to empty the appointment ID interview details(set the appointment to null)
     return axios
       .delete(`api/appointments/${id}`)
@@ -89,6 +91,7 @@ export  function useApplicationData() {
           ...state,
           appointments
         })
+        setState(setSpots)
       })
       // .catch((err) => console.error("delete error", err)) <--REMOVE! *Bug* Error handling on the index does not fire with this code.
   }

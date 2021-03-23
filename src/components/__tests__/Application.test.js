@@ -48,4 +48,36 @@ describe("Application", () => {
     
     expect(getByText(dayDom, "no spots remaining")).toBeInTheDocument();
   })
+
+  it("loads data, cancels an interview and increases the spots remaining for Monday by 1", async () => {
+    const { container } = render(
+      <Application />
+    )
+    
+    await waitForElement(() => getByText(container, "Archie Cohen"));
+    
+    const appointments = getAllByTestId(container, "appointment");
+    // console.log(prettyDOM(appointments));
+    const appointmentDom = appointments.find(appointment => {
+      return queryByText(appointment, "Archie Cohen");
+    })
+    
+    fireEvent.click(getByAltText(appointmentDom, "Delete"));
+    expect(getByText(appointmentDom, "Are you sure you want to delete?")).toBeInTheDocument();
+
+    fireEvent.click(getByText(appointmentDom, "Confirm"));
+    expect(getByText(appointmentDom, "Deleting")).toBeInTheDocument();
+    await waitForElement(() => getByAltText(appointmentDom, "Add"));
+
+    const days = getAllByTestId(container, "day");
+    const dayDom = days.find((day) => {
+      return queryByText(day, "Monday");
+    });
+    console.log(prettyDOM(dayDom));
+
+    expect(getByText(dayDom, "2 spots remaining")).toBeInTheDocument();
+    
+  });
+
+
 });
